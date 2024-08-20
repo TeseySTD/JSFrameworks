@@ -1,0 +1,12 @@
+var str = "John Doe";
+var num = 30;
+var bool = true;
+var anyVariable = "This can be anything";
+console.log("Name:", str);
+console.log("Age:", num);
+console.log("Is Student:", bool);
+console.log("Any Variable:", anyVariable);
+var stringArray = ["apple", "banana", "cherry"];
+var numberArray = [1, 2, 3, 4, 5];
+console.log("String Array:", stringArray);
+console.log("Number Array:", numberArray);
