@@ -25,8 +25,6 @@ function getUserInput() {
     return { size: size, toppings: toppings, marshmallow: marshmallow };
 }
 var userInput = getUserInput();
-
 var price = ice_cream(userInput.size, userInput.toppings, userInput.marshmallow);
-
 console.log("Selected Toppings: ".concat(userInput.toppings.map(function (topping) { return Toppings[topping]; }).join(', ')));
 console.log("Total price of ice-cream: ".concat(price));

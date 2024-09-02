@@ -3,6 +3,7 @@ function printStringNTimes(str, n) {
     for (var i = 0; i < n; i++) {
         console.log(str);
     }
+    return n;
 }
 printStringNTimes("A");
 printStringNTimes("B", 3);
