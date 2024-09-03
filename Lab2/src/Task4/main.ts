@@ -14,6 +14,8 @@ let totalAnnualBonus = 0;
 
 employees.forEach(employee => {
     totalAnnualBonus += employee.getAnnualBonus();
+    if (employee instanceof Developer || employee instanceof Manager) 
+        employee.pay();
 });
 
 console.log(`Total Annual Bonus: ${totalAnnualBonus}`);
