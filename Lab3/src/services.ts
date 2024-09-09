@@ -88,6 +88,7 @@ export class LibraryService {
                 ${users.map(user => `
                     <li class="list-group-item userList d-flex flex-column align-items-start" userid="${user.id}">
                         <h4>User name: <span class="userNameSpan" title="Copy user id">${user.name}</span></h4>
+                        <h4>User email: ${user.email}</h4>
                         <h5>Borrowed Books:</h5>
                         <ul class="list-group inner-list">
                             ${user.borrowedBooks.length === 0 ?
