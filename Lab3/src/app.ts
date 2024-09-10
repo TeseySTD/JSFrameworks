@@ -30,7 +30,7 @@ class App {
 
     private renderApp() {
         document.body.innerHTML = `
-            <div class="container mt-4" id="app">
+            <div class="container mt-4 col-md-6" id="app">
                 <h1 class="mb-4">Library Management System</h1>
                 <div class="input-group">
                     <div class="form-outline" data-mdb-input-init>
@@ -64,6 +64,42 @@ class App {
             <!-- Copyright -->
         </footer>`;
         this.attachEventListeners();
+
+
+        //?Second variant of rendering
+        // document.body.innerHTML = `
+        //     <div class="container mt-4 col-md-6 justify-content-center d-flex flex-column" id="app">
+        //         <h1 class="mb-4">Library Management System</h1>
+        //         <div class="input-group">
+        //             <div class="form-outline" data-mdb-input-init>
+        //                 <input type="search" id="search" class="form-control" />
+        //                 <label class="form-label" for="form1">Search</label>
+        //             </div>
+        //         </div>
+        //             <div >
+        //                 ${this.renderBookForm()}
+        //             </div>
+        //             <div id="bookList">
+        //                 ${this.libraryService.renderPaginatedBookList(this.currentPage,2)}
+        //             </div>
+        //             <div>
+        //                 ${this.renderUserForm()}
+        //             </div>
+        //             <div  id="userList">
+        //                 ${this.libraryService.renderUserList()}
+        //             </div>
+        //     </div>
+        // `;
+        // document.body.innerHTML += 
+        // `<footer class="bg-body-tertiary text-center text-lg-start">
+        //     <!-- Copyright -->
+        //     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+        //         © 2024 Copyright:
+        //         <a class="text-body" href="localhost:9000">My Library</a>
+        //     </div>
+        //     <!-- Copyright -->
+        // </footer>`;
+        // this.attachEventListeners();
     }
     private renderBookForm(): string {
         return `
