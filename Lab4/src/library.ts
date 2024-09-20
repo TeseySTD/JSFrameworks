@@ -8,10 +8,12 @@ export class Library<T> {
     }
     removeItem(item: T): void {
         console.log(this.items, item);
-        this.items = this.items.filter(i => JSON.stringify(i) != JSON.stringify(item));
+        this.items = this.items.filter(
+            (i) => JSON.stringify(i) != JSON.stringify(item),
+        );
     }
 
-    updateItem(oldItem:T, newItem: T): void {
+    updateItem(oldItem: T, newItem: T): void {
         this.removeItem(oldItem);
         this.addItem(newItem);
     }

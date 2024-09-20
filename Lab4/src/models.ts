@@ -2,7 +2,7 @@ export interface IBook {
     id: number;
     title: string;
     author: string;
-    year:number;
+    year: number;
     available: boolean;
 }
 
@@ -11,10 +11,9 @@ export class Book implements IBook {
         public id: number,
         public title: string,
         public author: string,
-        public year:number,
-        public available: boolean = true
+        public year: number,
+        public available: boolean = true,
     ) {}
-
 }
 
 // Файл: user.ts
@@ -31,6 +30,6 @@ export class User implements IUser {
     constructor(
         public id: number,
         public name: string,
-        public email: string
+        public email: string,
     ) {}
 }

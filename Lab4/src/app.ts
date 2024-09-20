@@ -1,16 +1,16 @@
-import { Library } from './library';
-import { Book, User } from './models';
-import { LibraryService } from './services';
-import { Storage } from './storage';
-import { Validation } from './validation';
-import '../libs/Bootstrap.css'
-import '../style/style.css'
+import { Library } from "./library";
+import { Book, User } from "./models";
+import { LibraryService } from "./services";
+import { Storage } from "./storage";
+import { Validation } from "./validation";
+import "../libs/Bootstrap.css";
+import "../style/style.css";
 
 class App {
     private library: Library<Book>;
     private libraryService: LibraryService;
     private storage: Storage;
-    private readonly itemsPerPage:number = 2;
+    private readonly itemsPerPage: number = 2;
     private currentPage: number = 1;
     constructor() {
         this.storage = new Storage();
@@ -25,7 +25,17 @@ class App {
 
     private loadInitialData() {
         const savedBooks = this.storage.getBooks();
-        savedBooks.forEach(book => this.library.addItem(new Book(book.id, book.title, book.author, book.year, book.available)));
+        savedBooks.forEach((book) =>
+            this.library.addItem(
+                new Book(
+                    book.id,
+                    book.title,
+                    book.author,
+                    book.year,
+                    book.available,
+                ),
+            ),
+        );
     }
 
     private renderApp() {
@@ -46,7 +56,7 @@ class App {
                         ${this.renderUserForm()}
                     </div>
                     <div class="col-md-6" id="bookList">
-                        ${this.libraryService.renderPaginatedBookList(this.currentPage,2)}
+                        ${this.libraryService.renderPaginatedBookList(this.currentPage, 2)}
                     </div>
                     <div class="col-md-6" id="userList">
                         ${this.libraryService.renderUserList()}
@@ -54,8 +64,7 @@ class App {
                 </div>
             </div>
         `;
-        document.body.innerHTML += 
-        `<footer class="bg-body-tertiary text-center text-lg-start">
+        document.body.innerHTML += `<footer class="bg-body-tertiary text-center text-lg-start">
             <!-- Copyright -->
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
                 © 2024 Copyright:
@@ -64,7 +73,6 @@ class App {
             <!-- Copyright -->
         </footer>`;
         this.attachEventListeners();
-
 
         //?Second variant of rendering
         // document.body.innerHTML = `
@@ -90,7 +98,7 @@ class App {
         //             </div>
         //     </div>
         // `;
-        // document.body.innerHTML += 
+        // document.body.innerHTML +=
         // `<footer class="bg-body-tertiary text-center text-lg-start">
         //     <!-- Copyright -->
         //     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
@@ -137,10 +145,20 @@ class App {
                     <label for="userBooks" class="form-label">User books</label>
                     <ul class="list-group" id="userBooksList"></ul>
                     <select class=" form-select" id="userBooks">
-                        ${this.library.getItems().filter(book => book.available).length === 0 ? '<option disabled="disabled" selected=true>No books found</option>' : 
-                            '<option class="form-select-placeholder" disabled selected hidden>Select a book</option>' + this.library.getItems()
-                            .filter(book => book.available)
-                            .map(book => `<option value="${book.id}">Book: ${book.title} by ${book.author}</option>`)}
+                        ${
+                            this.library
+                                .getItems()
+                                .filter((book) => book.available).length === 0
+                                ? '<option disabled="disabled" selected=true>No books found</option>'
+                                : '<option class="form-select-placeholder" disabled selected hidden>Select a book</option>' +
+                                  this.library
+                                      .getItems()
+                                      .filter((book) => book.available)
+                                      .map(
+                                          (book) =>
+                                              `<option value="${book.id}">Book: ${book.title} by ${book.author}</option>`,
+                                      )
+                        }
                     </select>
                     <button class="btn btn-primary btn-sm" id="addBookForUserButton">Add Book</button>
                 </div>
@@ -162,136 +180,216 @@ class App {
         this.attachEventListenerToPaginationButtons();
     }
     private attachEventListenersToBooksForm() {
-        const bookForm = document.getElementById('bookForm') as HTMLFormElement;
+        const bookForm = document.getElementById("bookForm") as HTMLFormElement;
         if (bookForm) {
-            bookForm.addEventListener('submit', (e) => {
+            bookForm.addEventListener("submit", (e) => {
                 e.preventDefault();
-                const titleInput = document.getElementById('bookTitle') as HTMLInputElement;
-                const authorInput = document.getElementById('bookAuthor') as HTMLInputElement;
-                const yearInput = document.getElementById('bookYear') as HTMLInputElement;
+                const titleInput = document.getElementById(
+                    "bookTitle",
+                ) as HTMLInputElement;
+                const authorInput = document.getElementById(
+                    "bookAuthor",
+                ) as HTMLInputElement;
+                const yearInput = document.getElementById(
+                    "bookYear",
+                ) as HTMLInputElement;
                 const year = parseInt(yearInput.value);
 
-                if (Validation.validateBookInput(titleInput.value, authorInput.value, year)) {
-                    const newBook = new Book(
-                        Date.now(), 
+                if (
+                    Validation.validateBookInput(
                         titleInput.value,
                         authorInput.value,
-                        year
+                        year,
+                    )
+                ) {
+                    const newBook = new Book(
+                        Date.now(),
+                        titleInput.value,
+                        authorInput.value,
+                        year,
                     );
                     this.libraryService.addBook(newBook);
                     this.renderApp();
                 } else {
-                    alert('Please enter valid book details');
+                    alert("Please enter valid book details");
                 }
             });
         }
-
     }
     private attachEventListenersToUsersForm() {
-        const userForm = document.getElementById('userForm');
+        const userForm = document.getElementById("userForm");
         if (userForm) {
-            userForm.addEventListener('submit', (e) => {
+            userForm.addEventListener("submit", (e) => {
                 e.preventDefault();
-                const nameInput = document.getElementById('userName') as HTMLInputElement;
-                const emailInput = document.getElementById('userEmail') as HTMLInputElement;
-                if (Validation.validateUserInput(nameInput.value, emailInput.value)) {
+                const nameInput = document.getElementById(
+                    "userName",
+                ) as HTMLInputElement;
+                const emailInput = document.getElementById(
+                    "userEmail",
+                ) as HTMLInputElement;
+                if (
+                    Validation.validateUserInput(
+                        nameInput.value,
+                        emailInput.value,
+                    )
+                ) {
                     let newUser = new User(
                         Date.now(),
                         nameInput.value,
-                        emailInput.value
+                        emailInput.value,
                     );
-                    Array.from(document.getElementById('userBooksList')
-                                        .getElementsByTagName('li'))
-                                        .map(el => this.storage.getBookById(+el.id) as Book)
-                                        .forEach(el => this.libraryService.borrowBook(newUser, el));
-                    
+                    Array.from(
+                        document
+                            .getElementById("userBooksList")
+                            .getElementsByTagName("li"),
+                    )
+                        .map((el) => this.storage.getBookById(+el.id) as Book)
+                        .forEach((el) =>
+                            this.libraryService.borrowBook(newUser, el),
+                        );
+
                     this.libraryService.addUser(newUser);
                     this.renderApp();
                 } else {
-                    alert('Please enter valid user details');
+                    alert("Please enter valid user details");
                 }
             });
         }
-    }   
+    }
     private attachEventListenersToAddUserBookButton() {
-        const addBookForUserButton = document.getElementById('addBookForUserButton');
+        const addBookForUserButton = document.getElementById(
+            "addBookForUserButton",
+        );
         if (addBookForUserButton) {
-            addBookForUserButton.addEventListener('click', (e) => {
+            addBookForUserButton.addEventListener("click", (e) => {
                 e.preventDefault();
-                const userBooks = document.getElementById('userBooks') as HTMLSelectElement;
-                const userBooksList = document.getElementById('userBooksList') as HTMLUListElement;
+                const userBooks = document.getElementById(
+                    "userBooks",
+                ) as HTMLSelectElement;
+                const userBooksList = document.getElementById(
+                    "userBooksList",
+                ) as HTMLUListElement;
                 const bookId = userBooks.value;
-                const book = this.library.getItems().find(b => b.id === +bookId);
-                
+                const book = this.library
+                    .getItems()
+                    .find((b) => b.id === +bookId);
 
                 if (book && userBooksList.querySelectorAll(`li`).length < 3) {
                     const array = Array.from(userBooks.selectedOptions);
-                    array.forEach(option => {
+                    array.forEach((option) => {
                         userBooks.remove(option.index);
-                    })
-                    document.getElementById('userBooksList').innerHTML += `
+                    });
+                    document.getElementById("userBooksList").innerHTML += `
                         <li class="list-group-item d-flex justify-content-between align-items-center" id="${book.id}">
                             ${book.title} by ${book.author}
                         </li>
                     `;
                 }
-                if(userBooks.querySelectorAll(`option`).length === 1) {
-                    userBooks.innerHTML += '<option disabled="disabled" selected>No books found</option>';
+                if (userBooks.querySelectorAll(`option`).length === 1) {
+                    userBooks.innerHTML +=
+                        '<option disabled="disabled" selected>No books found</option>';
                 }
             });
         }
     }
     private attachEventListenerToDeleteBookButtons() {
-        const deleteBookButtons = document.getElementsByClassName('bookList');
-        Array.from(deleteBookButtons).forEach(el => el.addEventListener('click', (e) => {
-            this.libraryService.removeBook(this.storage.getBookById(+el.getAttribute('bookid')) as Book);
-            this.renderApp();
-            console.log("delete operation with book", el.getAttribute('bookid'));
-        }))
+        const deleteBookButtons = document.getElementsByClassName("bookList");
+        Array.from(deleteBookButtons).forEach((el) =>
+            el.addEventListener("click", (e) => {
+                this.libraryService.removeBook(
+                    this.storage.getBookById(
+                        +el.getAttribute("bookid"),
+                    ) as Book,
+                );
+                this.renderApp();
+                console.log(
+                    "delete operation with book",
+                    el.getAttribute("bookid"),
+                );
+            }),
+        );
     }
     private attachEventListenerToReturnBookButtons() {
-        const deleteBookButtons = document.getElementsByClassName('userBook');
-        Array.from(deleteBookButtons).forEach(el => el.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.libraryService.returnBook(this.storage.getUserById(+el.parentElement.parentElement.getAttribute('userid')) as User, this.storage.getBookById(+el.getAttribute('bookid')) as Book);
-            this.renderApp();
-            console.log("return operation with user", this.storage.getUserById(+el.parentElement.parentElement.getAttribute('userid')));
-        }))
+        const deleteBookButtons = document.getElementsByClassName("userBook");
+        Array.from(deleteBookButtons).forEach((el) =>
+            el.addEventListener("click", (e) => {
+                e.stopPropagation();
+                this.libraryService.returnBook(
+                    this.storage.getUserById(
+                        +el.parentElement.parentElement.getAttribute("userid"),
+                    ) as User,
+                    this.storage.getBookById(
+                        +el.getAttribute("bookid"),
+                    ) as Book,
+                );
+                this.renderApp();
+                console.log(
+                    "return operation with user",
+                    this.storage.getUserById(
+                        +el.parentElement.parentElement.getAttribute("userid"),
+                    ),
+                );
+            }),
+        );
     }
     private attachEventListenerToDeleteUserButtons() {
-        const deleteBookButtons = document.getElementsByClassName('userList');
-        Array.from(deleteBookButtons).forEach(el => el.addEventListener('click', (e) => {
-            this.libraryService.removeUser(this.storage.getUserById(+el.getAttribute('userid')) as User);
-            this.renderApp();
-            console.log("delete operation with user", el.getAttribute('userid'));
-        }))
+        const deleteBookButtons = document.getElementsByClassName("userList");
+        Array.from(deleteBookButtons).forEach((el) =>
+            el.addEventListener("click", (e) => {
+                this.libraryService.removeUser(
+                    this.storage.getUserById(
+                        +el.getAttribute("userid"),
+                    ) as User,
+                );
+                this.renderApp();
+                console.log(
+                    "delete operation with user",
+                    el.getAttribute("userid"),
+                );
+            }),
+        );
     }
     private attachEventListenerToSearchButton() {
-        const searchInput = document.getElementById('search');
+        const searchInput = document.getElementById("search");
         if (searchInput) {
-            searchInput.addEventListener('input', (e) => {
+            searchInput.addEventListener("input", (e) => {
                 e.preventDefault();
-                const searchInput = document.getElementById('search') as HTMLInputElement;
-                const books = searchInput.value === '' ? [] : this.libraryService.searchBooks(searchInput.value);
-                document.getElementById('bookList').innerHTML = this.libraryService.renderBookList(books, this.itemsPerPage);
-                if(searchInput.value === '') {
+                const searchInput = document.getElementById(
+                    "search",
+                ) as HTMLInputElement;
+                const books =
+                    searchInput.value === ""
+                        ? []
+                        : this.libraryService.searchBooks(searchInput.value);
+                document.getElementById("bookList").innerHTML =
+                    this.libraryService.renderBookList(
+                        books,
+                        this.itemsPerPage,
+                    );
+                if (searchInput.value === "") {
                     this.attachEventListenerToPaginationButtons();
                 }
             });
         }
     }
     private attachEventListenerToBorrowButtons() {
-        const borrowButtons = document.getElementsByClassName('borrowButton');
-        Array.from(borrowButtons).forEach(el => el.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if(el.innerHTML.replace(/\s/g, '') == 'Available') {
-                this.showPopup(this.storage.getBookById(+el.parentElement.getAttribute('bookid')) as Book);
-                console.log("borrow operation");
-            }
-        }))
+        const borrowButtons = document.getElementsByClassName("borrowButton");
+        Array.from(borrowButtons).forEach((el) =>
+            el.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (el.innerHTML.replace(/\s/g, "") == "Available") {
+                    this.showPopup(
+                        this.storage.getBookById(
+                            +el.parentElement.getAttribute("bookid"),
+                        ) as Book,
+                    );
+                    console.log("borrow operation");
+                }
+            }),
+        );
     }
-    private showPopup(book : Book) {
-        const popup = document.createElement('div');
+    private showPopup(book: Book) {
+        const popup = document.createElement("div");
         popup.innerHTML = `
             <form class="popup border rounded ">
                 <div class="mb-3">
@@ -305,54 +403,73 @@ class App {
 
         document.body.appendChild(popup);
 
-        const closeButton = document.getElementById('close-popup');
+        const closeButton = document.getElementById("close-popup");
         if (closeButton) {
-            closeButton.addEventListener('click', (e) => {
+            closeButton.addEventListener("click", (e) => {
                 e.preventDefault();
                 document.body.removeChild(popup);
             });
         }
 
-        const form = popup.querySelector('form') as HTMLFormElement;
+        const form = popup.querySelector("form") as HTMLFormElement;
         if (form) {
-            form.addEventListener('submit', (e) => {
+            form.addEventListener("submit", (e) => {
                 e.preventDefault();
-                const id = (document.getElementById('user-id') as HTMLInputElement).value;
+                const id = (
+                    document.getElementById("user-id") as HTMLInputElement
+                ).value;
                 const user = this.storage.getUserById(+id) as User;
-                if(user) {
-                    if(user.borrowedBooks.length >= 3) {
+                if (user) {
+                    if (user.borrowedBooks.length >= 3) {
                         alert("User cannot borrow more than 3 books");
                         return;
                     }
                     this.libraryService.borrowBook(user, book);
-                    this.libraryService.updateUser(this.storage.getUserById(+id) as User, user);
+                    this.libraryService.updateUser(
+                        this.storage.getUserById(+id) as User,
+                        user,
+                    );
                     this.renderApp();
                     popup.remove();
-                }
-                else{
+                } else {
                     alert("User not found");
                 }
             });
         }
     }
     private attachEventListenerToCopyUserId() {
-        Array.from(document.getElementsByClassName('userNameSpan')).forEach(el => el.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const id = el.parentElement.parentElement.getAttribute('userid');
-            navigator.clipboard.writeText(id);
-        }));
+        Array.from(document.getElementsByClassName("userNameSpan")).forEach(
+            (el) =>
+                el.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    const id =
+                        el.parentElement.parentElement.getAttribute("userid");
+                    navigator.clipboard.writeText(id);
+                }),
+        );
     }
     private attachEventListenerToPaginationButtons() {
-        document.querySelector('.pagination').querySelectorAll('a').forEach(el => 
-            el.addEventListener('click', (e) => {
-                e.preventDefault();
-                document.getElementById('bookList').innerHTML = this.libraryService.renderPaginatedBookList(+el.getAttribute('data-page'), this.itemsPerPage);
-                this.currentPage = +el.getAttribute('data-page');
-                console.log("pagination operation with page", el.getAttribute('data-page'));
-                this.attachEventListenerToPaginationButtons();
-                this.attachEventListenerToBorrowButtons();
-                this.attachEventListenerToDeleteBookButtons();
-        }))
+        document
+            .querySelector(".pagination")
+            .querySelectorAll("a")
+            .forEach((el) =>
+                el.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    document.getElementById("bookList").innerHTML =
+                        this.libraryService.renderPaginatedBookList(
+                            +el.getAttribute("data-page"),
+                            this.itemsPerPage,
+                        );
+                    this.currentPage = +el.getAttribute("data-page");
+                    console.log(
+                        "pagination operation with page",
+                        el.getAttribute("data-page"),
+                    );
+                    this.attachEventListenerToPaginationButtons();
+                    this.attachEventListenerToBorrowButtons();
+                    this.attachEventListenerToDeleteBookButtons();
+                }),
+            );
     }
 }
 
