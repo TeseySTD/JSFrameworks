@@ -233,7 +233,7 @@ class App {
                         emailInput.value,
                     )
                 ) {
-                    let newUser = new User(
+                    const newUser = new User(
                         Date.now(),
                         nameInput.value,
                         emailInput.value,
@@ -431,7 +431,8 @@ class App {
                     );
                     this.renderApp();
                     popup.remove();
-                } else {
+                }
+            else {
                     alert("User not found");
                 }
             });
